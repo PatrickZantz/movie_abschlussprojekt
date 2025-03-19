@@ -3,7 +3,7 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = () => {
   return (
-    <form className="relative w-full">
+    <form className="relative w-full mb-6">
       <input
         type="text"
         placeholder="Search Movie ..."

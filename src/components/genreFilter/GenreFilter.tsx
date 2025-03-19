@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { fetchGenres } from '../../services/fetchGenres';
+import Button from '../button/Button'; // Importiere die Button-Komponente
 
 interface Genre {
   id: number;
   name: string;
 }
 
-const GenreFilter = () => {
+interface GenreFilterProps {
+  onGenreSelect: (genre: Genre) => void; // Typ für onGenreSelect definieren
+}
+
+const GenreFilter: React.FC<GenreFilterProps> = ({ onGenreSelect }) => {
   const [genres, setGenres] = useState<Genre[]>([]);
-  const buttonDesign =
-    "bg-secondary flex flex-1 items-center justify-center rounded-md min-w-fit py-3 text-gray-950";
 
   useEffect(() => {
     const getGenres = async () => {
@@ -19,17 +22,19 @@ const GenreFilter = () => {
     getGenres();
   }, []);
 
+  const handleGenreSelect = (genre: Genre) => {
+    onGenreSelect(genre); // Genre an die übergeordnete Komponente weitergeben
+  };
+
   return (
-    <section className="genre-filter flex w-full gap-2">
-      {genres.slice(0, 3).map((genre) => (
-        <button key={genre.id} onClick={() => console.log(genre.name)} className={buttonDesign}>
-          {genre.name}
-        </button>
-      ))}
-    </section>
+    <section className="flex w-full gap-2 mb-4">
+    {genres.slice(0, 3).map((genre) => (
+      <Button key={genre.id} onClick={() => handleGenreSelect(genre)} className="flex-grow">
+        {genre.name}
+      </Button>
+    ))}
+  </section>
   );
 };
-
-
 
 export default GenreFilter;

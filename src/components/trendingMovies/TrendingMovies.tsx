@@ -58,10 +58,10 @@ const TrendingMovies = () => {
   };
 
   return (
-    <div className="trending-movies mx-6 flex flex-col gap-4">
+    <div className="trending-movies flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold">Trending Movies</h2>
-        <Link to="/trendingMovies" className="text-primary font-semibold">
+        <Link to="/search" className="text-primary font-semibold">
           See all
         </Link>
       </div>
@@ -72,9 +72,9 @@ const TrendingMovies = () => {
         {images.map((src) => (
           <div
             key={src.index}
-            className="carousel-item w-full flex-shrink-0 snap-center"
+            className="carousel-item flex-shrink-0 snap-center"
           >
-            <img src={src.img} className="w-full object-cover" />
+            <img src={src.img} className="object-cover" />
           </div>
         ))}
       </div>

@@ -1,16 +1,11 @@
-import { Outlet, useLocation } from "react-router-dom";
-import Header from "../components/header/Header";
-import Footer from "../components/footer/Footer";
+import { Outlet } from "react-router-dom";
 
 export default function Layout() {
-  const location = useLocation();
   return (
-    <div>
-      {location.pathname !== "/" && <Header />}
+    <div className="flex flex-col min-h-screen">
       <main>
         <Outlet />
       </main>
-      {location.pathname !== "/" && <Footer />}
     </div>
   );
 }

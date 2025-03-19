@@ -8,11 +8,10 @@ import { axios, baseOptions } from "./api";
 const fetchTrendingData = async (page: number = 1): Promise<any> => {
   const { data } = await axios.get(
     `/trending/all/day?language=de-DE&page=${page}`,
-    baseOptions
+    baseOptions,
   );
 
   return data;
 };
-
 
 export { fetchTrendingData };
