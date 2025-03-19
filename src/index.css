@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+:root {
+  --color-custom-red: 252 32 33;
+}
+
+@layer base {
+  body {
+    @apply bg-[rgb(var(--color-custom-red))];
+  }
+}
