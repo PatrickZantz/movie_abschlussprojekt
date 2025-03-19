@@ -1,12 +1,8 @@
 @import "tailwindcss";
 
-:root {
-  --color-custom-red: 252 32 33;
-}
-
 @layer base {
   body {
-    background-color: #fc2021;
-    /* Set body background color to red */
+    /* background-color: #fc2021; */
+    /* Hier wird der background hardcodiert reingehackt -> mit tailwind bitte */
   }
 }
