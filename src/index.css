@@ -6,6 +6,7 @@
 
 @layer base {
   body {
-    @apply bg-[rgb(var(--color-custom-red))];
+    background-color: #fc2021;
+    /* Set body background color to red */
   }
 }

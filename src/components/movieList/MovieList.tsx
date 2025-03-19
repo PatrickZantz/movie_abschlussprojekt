@@ -6,7 +6,6 @@ export default function MovieList() {
 
   return (
     <div>
-      <p>Wert aus dem Kontext: {someValue}</p>
     </div>
   );
 }
