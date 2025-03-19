@@ -4,6 +4,7 @@ import MainProvider from "./context/MainProvider";
 import Home from "./pages/home/Home";
 import SearchPage from "./pages/searchPage/SearchPage";
 import MovieDetail from "./pages/movieDetail/MovieDetail";
+import Intro from "./pages/intro/Intro";
 
 export default function App() {
   return (
@@ -11,7 +12,8 @@ export default function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<Intro />} />
+            <Route path="home" element={<Home />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="movie/:id" element={<MovieDetail />} />
           </Route>

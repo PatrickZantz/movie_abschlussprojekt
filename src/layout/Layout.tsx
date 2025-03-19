@@ -1,15 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 export default function Layout() {
+  const location = useLocation();
   return (
     <div>
-      <Header />
+      {location.pathname !== "/" && <Header />}
       <main>
         <Outlet />
       </main>
-      <Footer />
+      {location.pathname !== "/" && <Footer />}
     </div>
   );
 }
