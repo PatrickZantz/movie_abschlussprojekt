@@ -2,7 +2,7 @@
 
 @layer base {
   body {
-    background-color: #f3f3f3;
+    background-color: #ffffff;
     font-family: var(--font-primary);
   }
 }
