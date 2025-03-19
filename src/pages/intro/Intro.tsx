@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Intro = () => {
   const [isFading, setIsFading] = useState(false);
@@ -30,7 +31,7 @@ const Intro = () => {
             className="absolute inset-0 w-full overflow-clip object-contain px-5 pt-10"
           />
         </div>
-        <div className="relative z-10 flex flex-col gap-6 bg-white py-14">
+        <div className="relative z-10 flex flex-col items-center justify-center gap-6 bg-white py-14">
           <h1 className="px-8 text-center text-3xl leading-10 font-bold">
             Enjoy Your Movie
             <br />
@@ -40,12 +41,11 @@ const Intro = () => {
             Stream unlimited movies and TV shows on your phone,tablet, laptop,
             and TV.
           </p>
-          <button
-            onClick={() => console.log("clicked")}
-            className="bg-primary mx-auto rounded-md px-4 py-2 text-lg font-bold text-white"
-          >
-            Get Started
-          </button>
+          <Link to="/home">
+            <button className="bg-primary mx-auto rounded-md px-4 py-2 text-lg font-bold text-white">
+              Get Started
+            </button>
+          </Link>
         </div>
       </section>
     </div>
