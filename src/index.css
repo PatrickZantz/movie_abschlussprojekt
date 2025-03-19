@@ -2,7 +2,6 @@
 
 @layer base {
   body {
-    /* background-color: #fc2021; */
-    /* Hier wird der background hardcodiert reingehackt -> mit tailwind bitte */
+    background-color: #f9f3f3;
   }
 }

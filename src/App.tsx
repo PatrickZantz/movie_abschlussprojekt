@@ -1,17 +1,19 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './layout/Layout';
-import MovieList from './components/movieList/MovieList';
-import MainProvider from './context/MainProvider'; // Importieren Sie den MainProvider
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./layout/Layout";
+import MainProvider from "./context/MainProvider";
+import Home from "./pages/home/Home";
+import SearchPage from "./pages/searchPage/SearchPage";
+import MovieDetail from "./pages/movieDetail/MovieDetail";
 
 export default function App() {
   return (
-    <MainProvider> {/* Wickeln Sie den MainProvider um den Router */}
+    <MainProvider>
       <Router>
         <Routes>
-          {/* Root Route mit Layout */}
           <Route path="/" element={<Layout />}>
-            {/* Child Route für die MovieList */}
-            <Route index element={<MovieList />} />
+            <Route index element={<Home />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="movie/:id" element={<MovieDetail />} />
           </Route>
         </Routes>
       </Router>
