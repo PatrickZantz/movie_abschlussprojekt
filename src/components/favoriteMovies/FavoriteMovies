@@ -32,6 +32,7 @@ const FavoriteMovies: React.FC<FavoriteMoviesProps> = ({
           favoriteMovieIds.includes(movie.id)
         );
         setFavoriteMovies(filteredMovies);
+        
       }, [allMovies, favoriteMovieIds]);
     
       return (
