@@ -7,7 +7,6 @@ const Home = () => {
       <div className="mt-30">
         <TrendingMovies />
       </div>
-      <Footer />
     </section>
   );
 };
