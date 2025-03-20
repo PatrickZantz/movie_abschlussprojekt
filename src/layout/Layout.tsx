@@ -9,9 +9,12 @@ export default function Layout() {
     <div className="flex min-h-screen flex-col">
       {location.pathname !== "/" &&
         !location.pathname.startsWith("/movie/") && <Header />}
+
+    
       <main>
         <Outlet />
       </main>
+      
       {location.pathname !== "/" && <Footer />}
     </div>
   );

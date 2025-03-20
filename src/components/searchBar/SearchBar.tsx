@@ -2,8 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const SearchBar = () => {
+
+
+// useEffekt 
+
+
   return (
-    <form className="relative mb-3 w-full">
+    <form className="relative w-full mb-6">
       <input
         type="text"
         placeholder="Search Movie ..."
