@@ -9,7 +9,7 @@ const MovieCard: React.FC<{
   date: string;
   genre: number[];
   duration?: string; // Optional, da nicht alle API-Aufrufe die Dauer enthalten
-}> = ({ title, image, rating, date, genre, duration }) => {
+}> = ({ title, image, rating, date, duration }) => {
   const year = date.slice(0, 4);
 
   return (

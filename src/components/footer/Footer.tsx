@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
@@ -32,9 +32,9 @@ const Footer = () => {
   //   setActiveIcon('bookmark');
   // };
 
-  const getIconClass = (icon: string) => {
-    return activeIcon === icon ? "active-icon" : "";
-  };
+  // const getIconClass = (icon: string) => {
+  //   return activeIcon === icon ? "active-icon" : "";
+  // };
 
   const isHomePage = location.pathname === "/home";
 

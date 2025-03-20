@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MovieListItem } from '../../types/movie';
-import { getPopularMovies } from '../../services/movieServices';
 import MovieCard from '../movieCard/MovieCard';
 import { useMain } from '../../context/MainProvider';
 

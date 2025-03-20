@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Button from "../button/Button"; // Importiere die Button-Komponente
 import { MainContext } from "../../context/MainProvider";
 import { useNavigate } from "react-router-dom";

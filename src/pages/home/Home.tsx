@@ -1,5 +1,4 @@
 import TrendingMovies from "../../components/trendingMovies/TrendingMovies";
-import Footer from "../../components/footer/Footer";
 
 const Home = () => {
   return (

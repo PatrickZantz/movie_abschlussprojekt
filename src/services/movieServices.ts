@@ -1,6 +1,5 @@
 import { axios, baseOptions } from "./api";
 import {
-  Movie,
   MovieListResponse,
   Genre,
   MovieSearchParams,
@@ -8,7 +7,6 @@ import {
   VideoResponse,
   MovieDetails,
 } from "../types/movie";
-import { APIError } from "../types/api";
 
 /**
  * Sucht nach Filmen basierend auf verschiedenen Parametern.

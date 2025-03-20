@@ -85,7 +85,7 @@ const MovieDetail: React.FC = () => {
         <p className="text-gray-300 text-center mb-6">
           {error || 'Film nicht gefunden'}
         </p>
-        <Button onClick={() => navigate(-1)} variant="primary">
+        <Button onClick={() => navigate(-1)}>
           Zurück
         </Button>
       </div>
@@ -124,7 +124,6 @@ const MovieDetail: React.FC = () => {
         <Button 
           onClick={() => navigate(-1)}
           className="absolute top-6 left-6 z-20 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-all"
-          variant="outline"
         >
           <img src={backButton} alt="Zurück" className="w-6 h-6" />
         </Button>
@@ -177,7 +176,6 @@ const MovieDetail: React.FC = () => {
             <Button 
               onClick={() => setShowTrailer(true)}
               className="mt-4 flex items-center gap-2"
-              variant="primary"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
