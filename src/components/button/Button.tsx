@@ -2,15 +2,16 @@ import React, { useState } from "react";
 
 type ButtonProps = {
   children: React.ReactNode;
-  onClick: () => void; // onClick wird hier definiert
+  onClick: () => void;
   className?: string; // className wird hier hinzugefügt
 };
 
-const Button: React.FC<ButtonProps> = ({ children, className }) => {
+const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => {
   const [isActive, setIsActive] = useState(false);
 
   const handleClick = () => {
-    isActive ? setIsActive(false) : setIsActive(true);
+    setIsActive(!isActive);
+    onClick();
   };
 
   return (
