@@ -1,28 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useMain } from "../../context/MainProvider";
 
 const TrendingMovies = () => {
+  const { trendingMovies, isLoading } = useMain();
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
-
-  const images = [
-    {
-      index: 1,
-      img: "https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp",
-    },
-    {
-      index: 2,
-      img: "https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp",
-    },
-    {
-      index: 3,
-      img: "https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp",
-    },
-    {
-      index: 4,
-      img: "https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp",
-    },
-  ];
 
   // Detect active slide based on scroll position
   useEffect(() => {
@@ -57,6 +40,16 @@ const TrendingMovies = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
+      </div>
+    );
+  }
+
+  const movies = trendingMovies?.results.slice(0, 4) || [];
+
   return (
     <div className="trending-movies flex flex-col gap-4">
       <div className="flex items-center justify-between">
@@ -69,23 +62,27 @@ const TrendingMovies = () => {
         ref={carouselRef}
         className="carousel flex w-full snap-x snap-mandatory overflow-x-scroll scroll-smooth rounded-md"
       >
-        {images.map((src) => (
+        {movies.map((movie) => (
           <div
-            key={src.index}
+            key={movie.id}
             className="carousel-item flex-shrink-0 snap-center"
           >
-            <img src={src.img} className="object-cover" />
+            <img 
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path || ''}`}
+              alt={movie.title} 
+              className="object-cover h-[200px] w-[400px]"
+            />
           </div>
         ))}
       </div>
 
       <div className="flex w-full justify-center gap-2 py-2">
-        {images.map((src) => (
+        {movies.map((movie, index) => (
           <button
-            onClick={() => scrollToImage(src.index)}
-            key={src.index}
+            onClick={() => scrollToImage(index + 1)}
+            key={movie.id}
             className={`h-2 w-2 rounded-full transition-all duration-300 ${
-              src.index - 1 === activeIndex
+              index === activeIndex
                 ? "bg-primary scale-125"
                 : "bg-tertiary"
             }`}

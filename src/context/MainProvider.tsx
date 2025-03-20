@@ -1,117 +1,105 @@
-import React, { createContext, useEffect, useState } from "react";
-import { fetchAllMovies } from "../services/fetchAllMovies"; // Erstellen Sie diese Funktion
-import { fetchTrendingData } from "../services/fetchTrendingData";
-import { fetchGenres } from "../services/fetchGenres";
-import { fetchGenreFilteredMovies } from "../services/fetchGenreFilteredMovies";
-import { searchMovies } from "../services/searchMovies";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { Genre, MovieListResponse } from "../types/movie";
+import { getGenres, getPopularMovies, getTrendingMovies } from "../services/movieServices";
 
 type MainContextType = {
-  genres: any[]; // Zustand für Genres
-  setGenres: React.Dispatch<React.SetStateAction<any[]>>; // Setter für Genres
-  trendingData: any; // Zustand für Trending-Daten
-  setTrendingData: React.Dispatch<React.SetStateAction<any>>; // Setter für Trending-Daten
-  allMovies: any;
-  setAllMovies: React.Dispatch<React.SetStateAction<any>>;
+  genres: Genre[];
+  popularMovies: MovieListResponse | null;
+  trendingMovies: MovieListResponse | null;
+  isLoading: boolean;
+  error: Error | null;
+  setError: (error: Error | null) => void;
+  refreshData: () => Promise<void>;
+  selectedGenres: number[];
+  setSelectedGenres: React.Dispatch<React.SetStateAction<number[]>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
-  selectedGenres: any[];
-  setSelectedGenres: React.Dispatch<React.SetStateAction<any[]>>;
-  filteredMovies: any[];
-  setFilteredMovies: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 const defaultContextValue: MainContextType = {
   genres: [],
-  setGenres: () => {},
-  trendingData: {},
-  setTrendingData: () => {},
-  allMovies: {},
-  setAllMovies: () => {},
-  searchQuery: "",
-  setSearchQuery: () => {},
+  popularMovies: null,
+  trendingMovies: null,
+  isLoading: true,
+  error: null,
+  setError: () => {},
+  refreshData: async () => {},
   selectedGenres: [],
   setSelectedGenres: () => {},
-  filteredMovies: [],
-  setFilteredMovies: () => {},
+  searchQuery: '',
+  setSearchQuery: () => {},
 };
 
 export const MainContext = createContext<MainContextType>(defaultContextValue);
 
-export default function MainProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [genres, setGenres] = useState<any[]>([]); // Zustand für Genres
-  const [trendingData, setTrendingData] = useState<any>({}); // Zustand für Trending-Daten
-  const [allMovies, setAllMovies] = useState<any>({}); // Zustand für Trending-Daten
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [selectedGenres, setSelectedGenres] = useState<any[]>([]);
-  const [filteredMovies, setFilteredMovies] = useState<any[]>([]);
+/**
+ * Custom Hook für den Zugriff auf den MainContext
+ */
+export const useMain = () => {
+  const context = useContext(MainContext);
+  if (!context) {
+    throw new Error('useMain muss innerhalb eines MainProviders verwendet werden');
+  }
+  return context;
+};
 
-  // Load all Genres
-  useEffect(() => {
-    const loadGenres = async () => {
-      const data = await fetchGenres();
-      setGenres(data);
-    };
-    loadGenres();
-  }, []);
+export default function MainProvider({ children }: { children: React.ReactNode }) {
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [popularMovies, setPopularMovies] = useState<MovieListResponse | null>(null);
+  const [trendingMovies, setTrendingMovies] = useState<MovieListResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Load all Trending Movies
-  useEffect(() => {
-    const loadTrendingData = async () => {
-      const data = await fetchTrendingData();
-      setTrendingData(data);
-    };
-    loadTrendingData();
-  }, []);
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      console.log('Starte Datenladen...');
 
-  // Load all Movies
-  useEffect(() => {
-    const loadAllMovies = async () => {
-      const data = await fetchAllMovies();
-      setAllMovies(data);
-    };
-    loadAllMovies();
-  }, []);
+      const [genresData, popularData, trendingData] = await Promise.all([
+        getGenres(),
+        getPopularMovies(),
+        getTrendingMovies(),
+      ]);
 
-  // Load filtered movies based on selected genres or search query
-  useEffect(() => {
-    const loadFilteredMovies = async () => {
-      // use genre filtering (also for search) if genre(s) are selected
-      if (selectedGenres.length > 0) {
-        const data = await fetchGenreFilteredMovies({
-          genreIds: selectedGenres,
-          query: searchQuery,
-        });
-        setFilteredMovies(data);
-        // if we have a search query but no genres selected, search entire db for movies
-      } else if (searchQuery.trim() !== "") {
-        const data = await searchMovies({ query: searchQuery });
-        setFilteredMovies(data.results);
+      console.log('Alle Daten erfolgreich geladen');
+      setGenres(genresData.genres);
+      setPopularMovies(popularData);
+      setTrendingMovies(trendingData);
+    } catch (err) {
+      console.error('Fehler beim Laden der Daten:', err);
+      if (err instanceof Error) {
+        console.error('Fehlermeldung:', err.message);
+        setError(err);
       } else {
-        setFilteredMovies([]); // clear the list when no genres are selected
+        const error = new Error('Ein unbekannter Fehler ist aufgetreten');
+        setError(error);
       }
-    };
-    loadFilteredMovies();
-  }, [selectedGenres, searchQuery]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   return (
     <MainContext.Provider
       value={{
         genres,
-        setGenres,
-        trendingData,
-        setTrendingData,
-        allMovies,
-        setAllMovies,
-        searchQuery,
-        setSearchQuery,
+        popularMovies,
+        trendingMovies,
+        isLoading,
+        error,
+        setError,
+        refreshData: loadData,
         selectedGenres,
         setSelectedGenres,
-        filteredMovies,
-        setFilteredMovies,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}

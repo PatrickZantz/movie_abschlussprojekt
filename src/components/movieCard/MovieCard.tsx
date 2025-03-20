@@ -7,8 +7,8 @@ const MovieCard: React.FC<{
   image: string;
   rating: number;
   date: string;
-  genre: string;
-  duration: string;
+  genre: number[];
+  duration?: string; // Optional, da nicht alle API-Aufrufe die Dauer enthalten
 }> = ({ title, image, rating, date, genre, duration }) => {
   const year = date.slice(0, 4);
 
@@ -26,15 +26,16 @@ const MovieCard: React.FC<{
 
         {/* Details */}
         <div className="flex items-center text-sm text-gray-500 gap-2 mt-1">
-          <img src={Polygon} alt="Polygon Icon" className="w-5 h-5 cursor-pointer" />
-          <span>{rating}</span>
-          <span>• {year} </span>
-          <span>• {genre} 
-            {/* @TODO Das sind genre IDs. Hier in der Genre Liste einfach den ersten anzeigen */}
-          </span>
-          <span>• {duration} 
-            {/* @TODO Dauer des Films ist sprachen abhängig und wird über die Dateils geladen */}
-          </span>
+          <img src={Polygon} alt="Polygon Icon" className="w-5 h-5" />
+          <span>{rating.toFixed(1)}</span>
+          <span>•</span>
+          <span>{year}</span>
+          {duration && (
+            <>
+              <span>•</span>
+              <span>{duration}</span>
+            </>
+          )}
         </div>
       </div>
 
