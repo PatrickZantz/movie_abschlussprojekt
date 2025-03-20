@@ -17,7 +17,7 @@ export default function Header() {
         <h1 className="text-primary text-center text-2xl font-bold">.MOV</h1>
       )}
       <SearchBar />
-      <GenreFilter onGenreSelect={(genre) => console.log(genre.name)} />
+      <GenreFilter />
     </header>
   );
 }

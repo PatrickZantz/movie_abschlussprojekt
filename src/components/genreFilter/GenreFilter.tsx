@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { fetchGenres } from "../../services/fetchGenres";
+import { useContext, useEffect } from "react";
 import Button from "../button/Button"; // Importiere die Button-Komponente
+import { MainContext } from "../../context/MainProvider";
+import { useNavigate } from "react-router-dom";
 
 interface Genre {
   id: number;
   name: string;
 }
 
-interface GenreFilterProps {
-  onGenreSelect: (genre: Genre) => void; // Typ für onGenreSelect definieren
-}
+const GenreFilter = () => {
+  const { genres, setSelectedGenres } = useContext(MainContext);
 
-const GenreFilter: React.FC<GenreFilterProps> = ({ onGenreSelect }) => {
-  const [genres, setGenres] = useState<Genre[]>([]);
-
-  useEffect(() => {
-    const getGenres = async () => {
-      const fetchedGenres = await fetchGenres();
-      setGenres(fetchedGenres);
-    };
-    getGenres();
-  }, []);
+  const navigate = useNavigate();
 
   const handleGenreSelect = (genre: Genre) => {
-    onGenreSelect(genre); // Genre an die übergeordnete Komponente weitergeben
+    setSelectedGenres((prevSelected) => {
+      const isAlreadySelected = prevSelected.includes(genre.id);
+      const updatedGenres = isAlreadySelected
+        ? prevSelected.filter((id) => id !== genre.id) // Remove genre
+        : [...prevSelected, genre.id]; // Add genre
+
+      return updatedGenres;
+    });
+    navigate("/search");
   };
 
   return (
