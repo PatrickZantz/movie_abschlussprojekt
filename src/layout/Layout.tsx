@@ -7,7 +7,8 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      {location.pathname !== "/" && <Header />}
+      {location.pathname !== "/" &&
+        !location.pathname.startsWith("/movie/") && <Header />}
       <main>
         <Outlet />
       </main>
