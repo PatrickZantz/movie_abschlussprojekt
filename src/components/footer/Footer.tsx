@@ -10,8 +10,6 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import EllipseImage from "../../assets/Ellipse 7.png";
 
-
-
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,9 +25,8 @@ const Footer = () => {
       navigate("/downloads");
     } else if (icon === "bookmark") {
       navigate("/favorites");
-    } else if (icon === "magnifyingGlass") {
+    } else if (icon === "search") {
       navigate("/search");
-
     } else if (icon === "profile") {
       navigate("/profile");
     }
@@ -38,8 +35,6 @@ const Footer = () => {
   const isIconActive = (icon: string) => {
     return activeIcon === icon;
   };
-
- 
 
   const isHomePage = location.pathname === "/home";
 
@@ -105,7 +100,6 @@ const Footer = () => {
             className={`text-xl ${isIconActive("search") ? "text-red-400" : "text-[#97aabd]"}`}
           />
         </div>
-
       </footer>
     </div>
   );
