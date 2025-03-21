@@ -12,7 +12,7 @@ export default function Layout() {
       <main className="grow">
         <Outlet />
       </main>
-      {location.pathname !== "/" && !location.pathname.startsWith("/movie/") && <Footer />}
+      {location.pathname !== "/" && <Footer />}
     </div>
   );
 }
