@@ -20,6 +20,12 @@ const Footer = () => {
     setActiveIcon(icon);
     if (icon === "home") {
       navigate("/home");
+    } else if (icon === "download") {
+      navigate("/download");
+    } else if (icon === "bookmark") {
+      navigate("/favorites");
+    } else if (icon === "profile") {
+      navigate("/profile");
     }
   };
 

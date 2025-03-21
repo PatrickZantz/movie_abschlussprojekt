@@ -5,6 +5,8 @@ import Home from "./pages/home/Home";
 import SearchPage from "./pages/searchPage/SearchPage";
 import MovieDetail from "./pages/movieDetail/MovieDetail";
 import Intro from "./pages/intro/Intro";
+import FavoriteMovies from "./pages/favoriteMovies/FavoriteMovies";
+import NotFound from "./pages/notFound/NotFound";
 
 export default function App() {
   return (
@@ -16,6 +18,8 @@ export default function App() {
             <Route path="home" element={<Home />} />
             <Route path="search" element={<SearchPage />} />
             <Route path="movie/:id" element={<MovieDetail />} />
+            <Route path="favorites" element={<FavoriteMovies />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </Router>
