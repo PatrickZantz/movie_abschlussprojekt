@@ -4,7 +4,7 @@ const NotFound = () => {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <section className="flex">
+    <section className="flex justify-center">
       {location.pathname === "/profile" ? (
         <article className="flex flex-col items-center gap-10 px-10 pt-25 text-center">
           <div className="flex flex-col items-center gap-4">
