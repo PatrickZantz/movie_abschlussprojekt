@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import backButton from '../../assets/back.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { MovieDetails } from '../../types/movie';
 import { getMovieDetails, getMovieVideos } from '../../services/movieServices';
 import { useMain } from '../../context/MainProvider';
@@ -103,17 +104,16 @@ const MovieDetail: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-hidden">
+    <div className="relative min-h-screen bg-white text-gray-900 overflow-hidden">
       {/* Hero Section with Backdrop */}
       <div className="relative h-[400px] w-full">
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/60 to-black z-10" />
         <img 
           src={movieDetails.backdrop_path 
             ? `https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`
             : '/placeholder-backdrop.jpg'
           }
           alt={movieDetails.title}
-          className="w-full h-full object-cover opacity-90"
+          className="w-full h-full object-cover opacity-100 [mask-image:linear-gradient(to_bottom,white_30%,transparent_100%)]"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder-backdrop.jpg';
@@ -125,7 +125,7 @@ const MovieDetail: React.FC = () => {
           onClick={() => navigate(-1)}
           className="absolute top-6 left-6 z-20 p-2 rounded-full bg-black/30 hover:bg-black/50 transition-all"
         >
-          <img src={backButton} alt="Zurück" className="w-6 h-6" />
+          <FontAwesomeIcon icon={faArrowLeft} className="w-6 h-6" />
         </Button>
       </div>
 
@@ -134,15 +134,15 @@ const MovieDetail: React.FC = () => {
         <div className="flex flex-col gap-4">
           {/* Movie Title and Rating */}
           <div className="flex items-start justify-between">
-            <h1 className="text-3xl font-bold max-w-[70%]">{movieDetails.title}</h1>
+            <h1 className="text-3xl font-bold max-w-[70%] text-gray-900">{movieDetails.title}</h1>
             <div className="flex items-center gap-2">
               <span className="text-yellow-400">★</span>
-              <span className="text-2xl font-bold">{movieDetails.vote_average.toFixed(1)}</span>
+              <span className="text-2xl font-bold text-gray-900">{movieDetails.vote_average.toFixed(1)}</span>
             </div>
           </div>
 
           {/* Movie Meta Info */}
-          <div className="flex items-center gap-4 text-gray-300 text-sm">
+          <div className="flex items-center gap-4 text-gray-600 text-sm">
             <span>{formatDate(movieDetails.release_date)}</span>
             <span>•</span>
             <span>{formatRuntime(movieDetails.runtime)}</span>
@@ -151,22 +151,22 @@ const MovieDetail: React.FC = () => {
           </div>
 
           {/* Overview */}
-          <p className="text-gray-300 leading-relaxed max-w-3xl text-sm line-clamp-3">
+          <p className="text-gray-700 leading-relaxed max-w-3xl text-sm line-clamp-3">
             {movieDetails.overview || 'Keine Beschreibung verfügbar'}
           </p>
 
           {/* Languages */}
           <div className="mt-2">
-            <h3 className="text-sm font-semibold mb-2">Sprachen</h3>
+            <h3 className="text-sm font-semibold mb-2 text-gray-900">Sprachen</h3>
             <div className="flex gap-2 flex-wrap">
               {movieDetails.spoken_languages.length > 0 ? (
                 movieDetails.spoken_languages.map(lang => (
-                  <span key={lang.english_name} className="px-3 py-1 bg-gray-800 rounded-full text-xs">
+                  <span key={lang.english_name} className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">
                     {lang.english_name}
                   </span>
                 ))
               ) : (
-                <span className="text-gray-400">Keine Sprachen verfügbar</span>
+                <span className="text-gray-500">Keine Sprachen verfügbar</span>
               )}
             </div>
           </div>
@@ -177,14 +177,11 @@ const MovieDetail: React.FC = () => {
               onClick={() => setShowTrailer(true)}
               className="mt-4 flex items-center gap-2"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+              <FontAwesomeIcon icon={faPlay} className="w-5 h-5" />
               Trailer ansehen
             </Button>
           ) : (
-            <p className="mt-4 text-gray-400">Kein Trailer verfügbar</p>
+            <p className="mt-4 text-gray-500">Kein Trailer verfügbar</p>
           )}
         </div>
       </div>
