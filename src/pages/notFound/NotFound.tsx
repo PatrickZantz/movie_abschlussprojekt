@@ -21,7 +21,7 @@ const NotFound = () => {
           </p>
           <button
             onClick={() => navigate("/home")}
-            className="bg-secondary rounded-md px-4 py-3 font-bold"
+            className="bg-secondary hover:bg-primary cursor-pointer rounded-md px-4 py-3 font-bold hover:text-white"
           >
             Go to Home
           </button>
@@ -37,7 +37,7 @@ const NotFound = () => {
           </p>
           <button
             onClick={() => navigate("/home")}
-            className="bg-secondary rounded-md px-4 py-3 font-bold"
+            className="bg-secondary hover:bg-primary cursor-pointer rounded-md px-4 py-3 font-bold hover:text-white"
           >
             Go to Home
           </button>
@@ -61,7 +61,7 @@ const NotFound = () => {
           </div>
           <button
             onClick={() => navigate("/home")}
-            className="bg-secondary mt-6 rounded-md px-4 py-3 font-bold"
+            className="bg-secondary hover:bg-primary cursor-pointer rounded-md px-4 py-3 font-bold hover:text-white"
           >
             Go to Home
           </button>
