@@ -84,7 +84,7 @@ const MovieDetail: React.FC = () => {
   if (error || !movieDetails) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
-        <h2 className="text-2xl font-bold mb-4">Fehler</h2>
+        <h2 className="text-2xl font-bold mb-4">Errors</h2>
         <p className="text-gray-300 text-center mb-6">
           {error || 'Film nicht gefunden'}
         </p>
@@ -105,7 +105,6 @@ const MovieDetail: React.FC = () => {
     return new Date(dateString).toISOString().split('T')[0];
   };
 
-  const trailer = videos?.results.find(video => video.type === "Trailer");
 
   return (
     <div className="relative min-h-screen bg-white text-gray-900 overflow-hidden">
@@ -161,7 +160,7 @@ const MovieDetail: React.FC = () => {
 
           {/* Languages */}
           <div className="mt-2">
-            <h3 className="text-sm font-semibold mb-2 text-gray-900">Sprachen</h3>
+            <h3 className="text-sm font-semibold mb-2 text-gray-900">Languages</h3>
             <div className="flex gap-2 flex-wrap">
               {movieDetails.spoken_languages.length > 0 ? (
                 movieDetails.spoken_languages.map(lang => (
@@ -170,7 +169,7 @@ const MovieDetail: React.FC = () => {
                   </span>
                 ))
               ) : (
-                <span className="text-gray-500">Keine Sprachen verfügbar</span>
+                <span className="text-gray-500">No languages avaiable</span>
               )}
             </div>
           </div>
@@ -182,10 +181,10 @@ const MovieDetail: React.FC = () => {
               className="mt-4 flex items-center gap-2"
             >
               <FontAwesomeIcon icon={faPlay} className="w-5 h-5" />
-              Trailer ansehen
+              Watch Trailer
             </Button>
           ) : (
-            <p className="mt-4 text-gray-500">Kein Trailer verfügbar</p>
+            <p className="mt-4 text-gray-500">No Trailer available</p>
           )}
 
           {/* Favorite Button */}

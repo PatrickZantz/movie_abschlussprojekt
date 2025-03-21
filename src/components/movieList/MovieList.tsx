@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MovieListItem } from '../../types/movie';
-import { getPopularMovies, searchMovies, discoverMovies } from '../../services/movieServices';
+import { searchMovies, discoverMovies } from '../../services/movieServices';
 import MovieCard from '../movieCard/MovieCard';
 import { useMain } from '../../context/MainProvider';
 
 export default function MovieList() {
-  const { popularMovies, isLoading: isMainLoading, setError, searchString, selectedGenres } = useMain();
+  const { isLoading: isMainLoading, setError, searchString, selectedGenres } = useMain();
   const [movies, setMovies] = useState<MovieListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setLocalError] = useState<string | null>(null);
