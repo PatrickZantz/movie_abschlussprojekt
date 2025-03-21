@@ -6,7 +6,7 @@ import { MainContext } from "../../context/MainProvider";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const { searchQuery, setSearchQuery, selectedGenres } =
+  const { searchQuery, setSearchQuery, selectedGenres, setSelectedGenres } =
     useContext(MainContext);
   const [inputValue, setInputValue] = useState(searchQuery);
 

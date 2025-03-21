@@ -1,27 +1,34 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MovieListItem } from '../../types/movie';
+import { getPopularMovies, searchMovies } from '../../services/movieServices';
 import MovieCard from '../movieCard/MovieCard';
 import { useMain } from '../../context/MainProvider';
 
 export default function MovieList() {
   const navigate = useNavigate();
-  const { popularMovies, isLoading: isMainLoading, setError } = useMain();
+  const { popularMovies, isLoading: isMainLoading, setError, searchQuery } = useMain();
   const [movies, setMovies] = useState<MovieListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setLocalError] = useState<string | null>(null);
 
-  // Lade Filme
   useEffect(() => {
     const fetchMovies = async () => {
       setIsLoading(true);
       setLocalError(null);
       try {
-        if (!popularMovies?.results || popularMovies.results.length === 0) {
+        let response;
+        if (searchQuery) {
+          response = await searchMovies(searchQuery);
+        } else {
+          response = popularMovies;
+        }
+
+        if (!response?.results || response.results.length === 0) {
           setLocalError('Keine Filme gefunden');
           setMovies([]);
         } else {
-          setMovies(popularMovies.results);
+          setMovies(response.results);
         }
       } catch (error) {
         console.error('Fehler beim Laden der Filme:', error);
@@ -33,7 +40,7 @@ export default function MovieList() {
     };
 
     fetchMovies();
-  }, [popularMovies, setError]);
+  }, [searchQuery, popularMovies, setError]);
 
   if (isMainLoading) {
     return (
@@ -45,7 +52,9 @@ export default function MovieList() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Beliebte Filme</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        {searchQuery ? `Suchergebnisse für "${searchQuery}"` : 'Beliebte Filme'}
+      </h1>
 
       {/* Fehlermeldung */}
       {error && (

@@ -8,6 +8,9 @@ import {
   MovieDetails,
 } from "../types/movie";
 
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const BASE_URL = "https://api.themoviedb.org/3";
+
 /**
  * Sucht nach Filmen basierend auf verschiedenen Parametern.
  *
@@ -24,27 +27,16 @@ import {
  * @throws Error wenn die API-Anfrage fehlschlägt
  */
 export const searchMovies = async (
-  params: MovieSearchParams,
+  query: string,
 ): Promise<MovieListResponse> => {
   try {
-    const queryParams = new URLSearchParams();
-
-    // Konvertiere alle Parameter in Strings
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined) {
-        queryParams.append(key, String(value));
-      }
+    const { data } = await axios.get("/search/movie", {
+      ...baseOptions,
+      params: {
+        query,
+        language: "de-DE",
+      },
     });
-
-    // Füge Standardwerte hinzu
-    queryParams.append("include_adult", String(params.include_adult ?? false));
-    queryParams.append("language", params.language ?? "de-DE");
-    queryParams.append("page", String(params.page ?? 1));
-
-    const { data } = await axios.get(
-      `/search/movie?${queryParams.toString()}`,
-      baseOptions,
-    );
     return data;
   } catch (error) {
     console.error("Error searching movies:", error);
