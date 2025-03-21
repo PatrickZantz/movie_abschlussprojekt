@@ -5,9 +5,12 @@ import {
   faBookmark,
   faUser,
   faDownload,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import EllipseImage from "../../assets/Ellipse 7.png";
+
+
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -24,6 +27,9 @@ const Footer = () => {
       navigate("/downloads");
     } else if (icon === "bookmark") {
       navigate("/favorites");
+    } else if (icon === "magnifyingGlass") {
+      navigate("/search");
+
     } else if (icon === "profile") {
       navigate("/profile");
     }
@@ -33,14 +39,7 @@ const Footer = () => {
     return activeIcon === icon;
   };
 
-  // const handleBookmarkClick = () => {
-  //   setShowFavorites(!showFavorites);
-  //   setActiveIcon('bookmark');
-  // };
-
-  // const getIconClass = (icon: string) => {
-  //   return activeIcon === icon ? "active-icon" : "";
-  // };
+ 
 
   const isHomePage = location.pathname === "/home";
 
@@ -49,7 +48,7 @@ const Footer = () => {
       <footer className="flex items-center justify-between px-10 text-[#97aabd]">
         <div
           onClick={() => handleIconClick("home")}
-          className={`relativ} relative flex cursor-pointer items-center`}
+          className={`relative flex cursor-pointer items-center`}
         >
           <img
             src={EllipseImage}
@@ -97,6 +96,16 @@ const Footer = () => {
             className={`text-xl ${isIconActive("profile") ? "text-red-400" : "text-[#97aabd]"}`}
           />
         </div>
+        <div
+          onClick={() => handleIconClick("search")}
+          className={`cursor-pointer`}
+        >
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            className={`text-xl ${isIconActive("search") ? "text-red-400" : "text-[#97aabd]"}`}
+          />
+        </div>
+
       </footer>
     </div>
   );
