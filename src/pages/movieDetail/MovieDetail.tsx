@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faPlay } from '@fortawesome/free-solid-svg-icons';
-import { MovieDetails } from '../../types/movie';
+import { faArrowLeft, faPlay, faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { MovieDetails, VideoResponse } from '../../types/movie';
 import { getMovieDetails, getMovieVideos } from '../../services/movieServices';
 import { useMain } from '../../context/MainProvider';
 import Button from '../../components/button/Button';
@@ -10,12 +10,13 @@ import Button from '../../components/button/Button';
 const MovieDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { setError } = useMain();
+  const { setError, favoriteMovies, toggleFavorite } = useMain();
   const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
   const [movieTrailer, setMovieTrailer] = useState<string | null>(null);
   const [showTrailer, setShowTrailer] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setLocalError] = useState<string | null>(null);
+  const [videos, setVideos] = useState<VideoResponse | null>(null);
 
   useEffect(() => {
     const loadMovieData = async () => {
@@ -30,7 +31,7 @@ const MovieDetail: React.FC = () => {
         setLocalError(null);
         
         // Lade Details und Videos parallel
-        const [details, videos] = await Promise.all([
+        const [details, videosData] = await Promise.all([
           getMovieDetails(Number(id)),
           getMovieVideos(Number(id))
         ]);
@@ -40,9 +41,10 @@ const MovieDetail: React.FC = () => {
         }
 
         setMovieDetails(details);
+        setVideos(videosData);
         
         // Finde den ersten Trailer
-        const trailer = videos.results.find(
+        const trailer = videosData.results.find(
           video => video.type === "Trailer" && video.site === "YouTube"
         );
         setMovieTrailer(trailer ? trailer.key : null);
@@ -102,6 +104,8 @@ const MovieDetail: React.FC = () => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toISOString().split('T')[0];
   };
+
+  const trailer = videos?.results.find(video => video.type === "Trailer");
 
   return (
     <div className="relative min-h-screen bg-white text-gray-900 overflow-hidden">
@@ -183,6 +187,19 @@ const MovieDetail: React.FC = () => {
           ) : (
             <p className="mt-4 text-gray-500">Kein Trailer verfügbar</p>
           )}
+
+          {/* Favorite Button */}
+          <div className="mt-4 flex items-center gap-2">
+            <button
+              onClick={() => toggleFavorite(movieDetails.id)}
+              className="text-gray-600 hover:text-red-600 transition-colors"
+            >
+              <FontAwesomeIcon
+                icon={faBookmark}
+                className={`text-2xl ${favoriteMovies.includes(movieDetails.id) ? "text-red-600" : ""}`}
+              />
+            </button>
+          </div>
         </div>
       </div>
 

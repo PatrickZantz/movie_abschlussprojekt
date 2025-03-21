@@ -56,16 +56,19 @@ export default function MainProvider({ children }: { children: React.ReactNode }
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-  const [favoriteMovies, setFavoriteMovies] = useState<number[]>([]);
+  const [favoriteMovies, setFavoriteMovies] = useState<number[]>(() => {
+    const savedFavorites = localStorage.getItem('favoriteMovies');
+    return savedFavorites ? JSON.parse(savedFavorites) : [];
+  });
   const [searchString, setSearchString] = useState<string>('');
 
   const toggleFavorite = (movieId: number) => {
     setFavoriteMovies(prev => {
-      if (prev.includes(movieId)) {
-        return prev.filter(id => id !== movieId);
-      } else {
-        return [...prev, movieId];
-      }
+      const newFavorites = prev.includes(movieId)
+        ? prev.filter(id => id !== movieId)
+        : [...prev, movieId];
+      localStorage.setItem('favoriteMovies', JSON.stringify(newFavorites));
+      return newFavorites;
     });
   };
 
