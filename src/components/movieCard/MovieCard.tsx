@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Polygon from '../../assets/Polygon 3.png';
 import { useMain } from '../../context/MainProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
 
 const MovieCard: React.FC<{
   movieId: number;
@@ -58,21 +60,13 @@ const MovieCard: React.FC<{
 
       {/* Bookmark Icon */}
       <div 
-        className="flex-shrink-0 cursor-pointer"
+        className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer"
         onClick={handleBookmarkClick}
       >
-        <svg 
-          width="30" 
-          height="30" 
-          viewBox="0 0 24 24" 
-          fill={isBookmarked ? "#DC2626" : "none"} 
-          stroke="black" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        >
-          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
-        </svg>
+        <FontAwesomeIcon 
+          icon={faBookmark}
+          className={`w-6 h-6 ${isBookmarked ? 'text-red-600' : 'text-gray-300'}`}
+        />
       </div>
     </div>
   );
