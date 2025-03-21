@@ -8,8 +8,6 @@ interface Movie {
 }
 
 
-
-
 interface FavoriteMoviesProps {
   favoriteMovieIds: number[];
 }
