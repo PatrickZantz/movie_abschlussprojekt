@@ -48,7 +48,7 @@ const Footer = () => {
           <img
             src={EllipseImage}
             alt="Ellipse"
-            className={`absolute top-1/2 left-[-10px] z-0 h-4 w-4 -translate-y-1/2 transform text-[#97aabd] ${isHomePage ? "text-red-400" : ""}`}
+            className={`absolute top-1/2 left-[-10px] z-0 h-4 w-4 -translate-y-1/2 transform text-[#97aabd] ${isHomePage ? "text-red-400" : "text-[#97aabd]" }`}
           />
 
           <FontAwesomeIcon
@@ -56,7 +56,7 @@ const Footer = () => {
             className={`relative z-10 text-xl ${isHomePage ? "text-red-400" : "text-[#97aabd]"}`}
           />
           <p
-            className={`text-l ml-4 font-bold ${isHomePage ? "text-red-500" : ""}`}
+            className={`text-l ml-4 font-bold ${isHomePage ? "text-red-500" : "text-[#97aabd]"}`}
           >
             Home
           </p>
