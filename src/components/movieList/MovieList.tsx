@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MovieListItem } from '../../types/movie';
 import { getPopularMovies, searchMovies } from '../../services/movieServices';
 import MovieCard from '../movieCard/MovieCard';
 import { useMain } from '../../context/MainProvider';
 
 export default function MovieList() {
-  const navigate = useNavigate();
   const { popularMovies, isLoading: isMainLoading, setError, searchQuery } = useMain();
   const [movies, setMovies] = useState<MovieListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -75,19 +73,15 @@ export default function MovieList() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {movies.map((movie) => (
-            <div
+            <MovieCard
               key={movie.id}
-              onClick={() => navigate(`/movie/${movie.id}`)}
-              className="cursor-pointer transform transition-transform hover:scale-105"
-            >
-              <MovieCard
-                title={movie.title}
-                image={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder.jpg'}
-                rating={movie.vote_average}
-                date={movie.release_date}
-                genre={movie.genre_ids}
-              />
-            </div>
+              movieId={movie.id}
+              title={movie.title}
+              image={movie.poster_path ? `https://image.tmdb.org/t/p/w500${movie.poster_path}` : '/placeholder.jpg'}
+              rating={movie.vote_average}
+              date={movie.release_date}
+              genre={movie.genre_ids}
+            />
           ))}
         </div>
       )}

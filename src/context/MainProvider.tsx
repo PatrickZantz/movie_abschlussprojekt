@@ -14,6 +14,8 @@ type MainContextType = {
   setSelectedGenres: React.Dispatch<React.SetStateAction<number[]>>;
   searchQuery: string;
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  favoriteMovies: number[];
+  toggleFavorite: (movieId: number) => void;
 };
 
 const defaultContextValue: MainContextType = {
@@ -28,6 +30,8 @@ const defaultContextValue: MainContextType = {
   setSelectedGenres: () => {},
   searchQuery: '',
   setSearchQuery: () => {},
+  favoriteMovies: [],
+  toggleFavorite: () => {},
 };
 
 export const MainContext = createContext<MainContextType>(defaultContextValue);
@@ -51,6 +55,17 @@ export default function MainProvider({ children }: { children: React.ReactNode }
   const [error, setError] = useState<Error | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [favoriteMovies, setFavoriteMovies] = useState<number[]>([]);
+
+  const toggleFavorite = (movieId: number) => {
+    setFavoriteMovies(prev => {
+      if (prev.includes(movieId)) {
+        return prev.filter(id => id !== movieId);
+      } else {
+        return [...prev, movieId];
+      }
+    });
+  };
 
   const loadData = async () => {
     try {
@@ -100,6 +115,8 @@ export default function MainProvider({ children }: { children: React.ReactNode }
         setSelectedGenres,
         searchQuery,
         setSearchQuery,
+        favoriteMovies,
+        toggleFavorite,
       }}
     >
       {children}

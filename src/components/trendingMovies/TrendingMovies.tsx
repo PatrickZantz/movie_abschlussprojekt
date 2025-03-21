@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMain } from "../../context/MainProvider";
 
 const TrendingMovies = () => {
   const { trendingMovies, isLoading } = useMain();
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
+
+  const handleMovieClick = (movieId: number) => {
+    navigate(`/movie/${movieId}`);
+  };
 
   // Detect active slide based on scroll position
   useEffect(() => {
@@ -65,13 +70,17 @@ const TrendingMovies = () => {
         {movies.map((movie) => (
           <div
             key={movie.id}
-            className="carousel-item flex-shrink-0 snap-center"
+            className="carousel-item flex-shrink-0 snap-center cursor-pointer relative"
+            onClick={() => handleMovieClick(movie.id)}
           >
-            <img 
+            <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path || ''}`}
-              alt={movie.title} 
+              alt={movie.title}
               className="object-cover h-[200px] w-[400px]"
             />
+            <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
+              <h3 className="text-white text-sm font-medium">{movie.title}</h3>
+            </div>
           </div>
         ))}
       </div>
