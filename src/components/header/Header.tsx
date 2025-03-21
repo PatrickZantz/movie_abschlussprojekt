@@ -1,8 +1,9 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GenreFilter from "../genreFilter/GenreFilter";
 import SearchBar from "../searchBar/SearchBar";
 
 export default function Header() {
+  const navigate = useNavigate();
   const location = useLocation();
   return (
     <header
@@ -14,7 +15,12 @@ export default function Header() {
         </h1>
       )}
       {location.pathname !== "/home" && (
-        <h1 className="text-primary text-center text-2xl font-bold">.MOV</h1>
+        <h1
+          onClick={() => navigate("/home")}
+          className="text-primary cursor-pointer text-center text-2xl font-bold"
+        >
+          .MOV
+        </h1>
       )}
       <SearchBar />
       <GenreFilter />
