@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { MovieListItem } from '../../types/movie';
-import { getPopularMovies, searchMovies } from '../../services/movieServices';
+import { getPopularMovies, searchMovies, discoverMovies } from '../../services/movieServices';
 import MovieCard from '../movieCard/MovieCard';
 import { useMain } from '../../context/MainProvider';
 
 export default function MovieList() {
-  const { popularMovies, isLoading: isMainLoading, setError, searchQuery } = useMain();
+  const { popularMovies, isLoading: isMainLoading, setError, searchString, selectedGenres } = useMain();
   const [movies, setMovies] = useState<MovieListItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setLocalError] = useState<string | null>(null);
@@ -16,10 +16,12 @@ export default function MovieList() {
       setLocalError(null);
       try {
         let response;
-        if (searchQuery) {
-          response = await searchMovies(searchQuery);
+        if (searchString) {
+          response = await searchMovies(searchString);
+        } else if (selectedGenres.length > 0) {
+          response = await discoverMovies({ with_genres: selectedGenres.join(',') });
         } else {
-          response = popularMovies;
+          response = await discoverMovies({});
         }
 
         if (!response?.results || response.results.length === 0) {
@@ -38,7 +40,7 @@ export default function MovieList() {
     };
 
     fetchMovies();
-  }, [searchQuery, popularMovies, setError]);
+  }, [searchString, selectedGenres, setError]);
 
   if (isMainLoading) {
     return (
@@ -51,7 +53,7 @@ export default function MovieList() {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <h1 className="text-2xl font-bold mb-6">
-        {searchQuery ? `Suchergebnisse für "${searchQuery}"` : 'Beliebte Filme'}
+        {searchString ? `Suchergebnisse für "${searchString}"` : 'Beliebte Filme'}
       </h1>
 
       {/* Fehlermeldung */}

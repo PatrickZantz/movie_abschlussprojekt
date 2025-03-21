@@ -6,19 +6,17 @@ import { MainContext } from "../../context/MainProvider";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const { searchQuery, setSearchQuery, selectedGenres, setSelectedGenres } =
-    useContext(MainContext);
-  const [inputValue, setInputValue] = useState(searchQuery);
+  const { searchString, setSearchString } = useContext(MainContext);
+  const [inputValue, setInputValue] = useState(searchString);
 
-  const handleSubmit = () => (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSearchQuery(inputValue);
-    console.log("Search", inputValue, selectedGenres);
+    setSearchString(inputValue);
     navigate("/search");
   };
 
   return (
-    <form className="relative mb-3 w-full" onSubmit={handleSubmit()}>
+    <form className="relative mb-3 w-full" onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Search Movie ..."

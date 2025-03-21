@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Genre, MovieListResponse } from "../types/movie";
 import { getGenres, getPopularMovies, getTrendingMovies } from "../services/movieServices";
 
-type MainContextType = {
+export type MainContextType = {
   genres: Genre[];
   popularMovies: MovieListResponse | null;
   trendingMovies: MovieListResponse | null;
@@ -12,10 +12,11 @@ type MainContextType = {
   refreshData: () => Promise<void>;
   selectedGenres: number[];
   setSelectedGenres: React.Dispatch<React.SetStateAction<number[]>>;
-  searchQuery: string;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
   favoriteMovies: number[];
   toggleFavorite: (movieId: number) => void;
+  resetFilters: () => void;
+  searchString: string;
+  setSearchString: (query: string) => void;
 };
 
 const defaultContextValue: MainContextType = {
@@ -28,10 +29,11 @@ const defaultContextValue: MainContextType = {
   refreshData: async () => {},
   selectedGenres: [],
   setSelectedGenres: () => {},
-  searchQuery: '',
-  setSearchQuery: () => {},
   favoriteMovies: [],
   toggleFavorite: () => {},
+  resetFilters: () => {},
+  searchString: '',
+  setSearchString: () => {},
 };
 
 export const MainContext = createContext<MainContextType>(defaultContextValue);
@@ -54,8 +56,8 @@ export default function MainProvider({ children }: { children: React.ReactNode }
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
   const [favoriteMovies, setFavoriteMovies] = useState<number[]>([]);
+  const [searchString, setSearchString] = useState<string>('');
 
   const toggleFavorite = (movieId: number) => {
     setFavoriteMovies(prev => {
@@ -70,31 +72,26 @@ export default function MainProvider({ children }: { children: React.ReactNode }
   const loadData = async () => {
     try {
       setIsLoading(true);
-      setError(null);
-      console.log('Starte Datenladen...');
-
-      const [genresData, popularData, trendingData] = await Promise.all([
-        getGenres(),
+      const [popularMoviesData, trendingMoviesData, genresData] = await Promise.all([
         getPopularMovies(),
         getTrendingMovies(),
+        getGenres()
       ]);
 
-      console.log('Alle Daten erfolgreich geladen');
+      setPopularMovies(popularMoviesData);
+      setTrendingMovies(trendingMoviesData);
       setGenres(genresData.genres);
-      setPopularMovies(popularData);
-      setTrendingMovies(trendingData);
-    } catch (err) {
-      console.error('Fehler beim Laden der Daten:', err);
-      if (err instanceof Error) {
-        console.error('Fehlermeldung:', err.message);
-        setError(err);
-      } else {
-        const error = new Error('Ein unbekannter Fehler ist aufgetreten');
-        setError(error);
-      }
+    } catch (error) {
+      console.error('Error loading data:', error);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Reset filters when navigating to home
+  const resetFilters = () => {
+    setSelectedGenres([]);
+    setSearchString('');
   };
 
   useEffect(() => {
@@ -113,10 +110,11 @@ export default function MainProvider({ children }: { children: React.ReactNode }
         refreshData: loadData,
         selectedGenres,
         setSelectedGenres,
-        searchQuery,
-        setSearchQuery,
         favoriteMovies,
         toggleFavorite,
+        resetFilters,
+        searchString,
+        setSearchString,
       }}
     >
       {children}

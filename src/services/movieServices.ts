@@ -6,10 +6,8 @@ import {
   MovieDiscoverParams,
   VideoResponse,
   MovieDetails,
+  MovieListItem,
 } from "../types/movie";
-
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-const BASE_URL = "https://api.themoviedb.org/3";
 
 /**
  * Sucht nach Filmen basierend auf verschiedenen Parametern.
@@ -26,20 +24,18 @@ const BASE_URL = "https://api.themoviedb.org/3";
  * @returns Eine Promise mit der MovieListResponse
  * @throws Error wenn die API-Anfrage fehlschlägt
  */
-export const searchMovies = async (
-  query: string,
-): Promise<MovieListResponse> => {
+export const searchMovies = async (query: string) => {
   try {
-    const { data } = await axios.get("/search/movie", {
+    const response = await axios.get("/search/movie", {
       ...baseOptions,
       params: {
-        query,
+        query: query,
         language: "de-DE",
       },
     });
-    return data;
+    return response.data;
   } catch (error) {
-    console.error("Error searching movies:", error);
+    console.error("Fehler bei der Filmsuche:", error);
     throw error;
   }
 };
@@ -58,32 +54,22 @@ export const searchMovies = async (
  * @returns Eine Promise mit der MovieListResponse
  * @throws Error wenn die API-Anfrage fehlschlägt
  */
-export const discoverMovies = async (
-  params: MovieDiscoverParams,
-): Promise<MovieListResponse> => {
+export const discoverMovies = async ({
+  with_genres,
+}: {
+  with_genres?: string;
+}) => {
   try {
-    const queryParams = new URLSearchParams();
-
-    // Konvertiere alle Parameter in Strings
-    Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined) {
-        queryParams.append(key, String(value));
-      }
+    const response = await axios.get("/discover/movie", {
+      ...baseOptions,
+      params: {
+        with_genres,
+        language: "de-DE",
+      },
     });
-
-    // Füge Standardwerte hinzu
-    queryParams.append("include_adult", String(params.include_adult ?? false));
-    queryParams.append("include_video", String(params.include_video ?? false));
-    queryParams.append("language", "de-DE");
-    queryParams.append("page", String(params.page ?? 1));
-
-    const { data } = await axios.get(
-      `/discover/movie?${queryParams.toString()}`,
-      baseOptions,
-    );
-    return data;
+    return response.data;
   } catch (error) {
-    console.error("Error discovering movies:", error);
+    console.error("Fehler beim Abrufen der Filme:", error);
     throw error;
   }
 };
@@ -116,19 +102,17 @@ export const getGenres = async (): Promise<{ genres: Genre[] }> => {
  * @returns Eine Promise mit der MovieListResponse
  * @throws Error wenn die API-Anfrage fehlschlägt
  */
-export const getPopularMovies = async (
-  page: number = 1,
-): Promise<MovieListResponse> => {
+export const getPopularMovies = async () => {
   try {
-    console.log("Lade beliebte Filme...");
-    const { data } = await axios.get(`/movie/popular?page=${page}`);
-    console.log("Beliebte Filme erfolgreich geladen:", data);
-    return data;
+    const response = await axios.get("/movie/popular", {
+      ...baseOptions,
+      params: {
+        language: "de-DE",
+      },
+    });
+    return response.data;
   } catch (error) {
-    console.error("Fehler beim Laden der beliebten Filme:", error);
-    if (error instanceof Error) {
-      console.error("Fehlermeldung:", error.message);
-    }
+    console.error("Fehler beim Abrufen der beliebten Filme:", error);
     throw error;
   }
 };
