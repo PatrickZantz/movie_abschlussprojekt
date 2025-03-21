@@ -1,13 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { MainContext } from "../../context/MainProvider";
 
 const SearchBar = () => {
   const navigate = useNavigate();
   const { searchString, setSearchString } = useContext(MainContext);
   const [inputValue, setInputValue] = useState(searchString);
+
+  useEffect(() => {
+    setInputValue(searchString);
+  }, [searchString]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

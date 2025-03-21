@@ -1,6 +1,6 @@
 import TrendingMovies from "../../components/trendingMovies/TrendingMovies";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <section className="searchHome">
       <div className="mt-30">
@@ -10,4 +10,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

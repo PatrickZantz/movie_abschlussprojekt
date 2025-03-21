@@ -25,7 +25,8 @@ const GenreFilter: React.FC = () => {
         <Button
           key={genre.id}
           onClick={() => handleGenreClick(genre.id)}
-          className={`flex-grow ${selectedGenres.includes(genre.id) ? 'bg-red-600 text-white' : ''}`}
+          className="flex-grow"
+          isActive={selectedGenres.includes(genre.id)}
         >
           {genre.name}
         </Button>
