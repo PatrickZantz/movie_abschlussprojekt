@@ -70,13 +70,13 @@ const TrendingMovies = () => {
         {movies.map((movie) => (
           <div
             key={movie.id}
-            className="carousel-item flex-shrink-0 snap-center cursor-pointer relative"
+            className="carousel-item flex-shrink-0 snap-center cursor-pointer relative w-[100%]"
             onClick={() => handleMovieClick(movie.id)}
           >
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path || ''}`}
               alt={movie.title}
-              className="object-cover h-[200px] w-[400px]"
+              className="object-cover h-[200px] w-[100%]"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-black/50 p-2">
               <h3 className="text-white text-sm font-medium">{movie.title}</h3>
