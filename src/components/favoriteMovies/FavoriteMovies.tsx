@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAllMovies } from '../../services/fetchAllMovies'
+import { getPopularMovies } from '../../services/movieServices';
 
 interface Movie {
   id: number;
   title: string;
   
 }
+
+
+
 
 interface FavoriteMoviesProps {
   favoriteMovieIds: number[];
@@ -20,7 +23,7 @@ const FavoriteMovies: React.FC<FavoriteMoviesProps> = ({
 
     useEffect(() => {
         const getMovies = async () => {
-          const data = await fetchAllMovies();
+          const data = await getPopularMovies();
           setAllMovies(data.results);
         };
     
