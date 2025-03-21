@@ -21,7 +21,7 @@ const Footer = () => {
     if (icon === "home") {
       navigate("/home");
     } else if (icon === "download") {
-      navigate("/download");
+      navigate("/downloads");
     } else if (icon === "bookmark") {
       navigate("/favorites");
     } else if (icon === "profile") {
