@@ -13,7 +13,7 @@ export default function FavoriteMovies() {
     const fetchMovies = async () => {
       try {
         const response = await discoverMovies({});
-        const favoriteMoviesList = response.results.filter(movie => 
+        const favoriteMoviesList = response.results.filter((movie: { id: number; }) => 
           favoriteMovies.includes(movie.id)
         );
         setMovies(favoriteMoviesList);
@@ -37,11 +37,11 @@ export default function FavoriteMovies() {
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6">Meine Favoriten</h1>
+      <h1 className="text-2xl font-bold mb-6">Favorites</h1>
 
       {movies.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-600">Keine Favoriten hinzugefügt</p>
+          <p className="text-gray-600">No favorites available</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">

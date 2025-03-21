@@ -24,7 +24,7 @@ const SearchBar = () => {
       <input
         type="text"
         placeholder="Search Movie ..."
-        className="bg-secondary focus:ring-primary w-full rounded-md py-3 pr-12 pl-4 text-gray-950 placeholder-gray-400 focus:ring-2 focus:outline-none"
+        className="focus:ring-primary w-full rounded-md bg-gray-100 py-3 pr-12 pl-4 text-gray-950 placeholder-gray-400 focus:ring-2 focus:outline-none"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />

@@ -7,11 +7,16 @@ type ButtonProps = {
   isActive?: boolean;
 };
 
-const Button: React.FC<ButtonProps> = ({ children, className, onClick, isActive = false }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className,
+  onClick,
+  isActive = false,
+}) => {
   return (
     <button
       onClick={onClick}
-      className={`flex min-w-fit items-center justify-center rounded-md py-3 text-gray-950 ${isActive ? "bg-primary text-white" : "bg-secondary"} ${className || ""}`}
+      className={`flex min-w-fit items-center justify-center rounded-md py-3 text-gray-950 ${isActive ? "bg-primary text-white" : "bg-gray-100"} ${className || ""}`}
     >
       {children}
     </button>

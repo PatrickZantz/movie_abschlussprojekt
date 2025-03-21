@@ -2,11 +2,8 @@ import { axios, baseOptions } from "./api";
 import {
   MovieListResponse,
   Genre,
-  MovieSearchParams,
-  MovieDiscoverParams,
   VideoResponse,
   MovieDetails,
-  MovieListItem,
 } from "../types/movie";
 
 /**
